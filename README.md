@@ -11,14 +11,14 @@ https://www.arduino.cc/en/software
 Follow instructions from here https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
 
 ### Install Telegram bot lib
-download https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip
-Go to Sketch > Include Library > Add.ZIP Library...
-Add the library you’ve just downloaded.
+- download https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip
+- Go to Sketch > Include Library > Add.ZIP Library...
+- Add the library you’ve just downloaded.
 
 ### Install ArduinoJson lib
-Go to Skech > Include Library > Manage Libraries.
-Search for “ArduinoJson”.
-Install the library.
+- Go to Skech > Include Library > Manage Libraries.
+- Search for “ArduinoJson”.
+- Install the library.
 
 ## Configure code
 Open ino file in Arduino
@@ -30,29 +30,29 @@ Add your wifi details in p_ssid and p_password
 Add your vault address in p_link
 
 ### Telegram bot
-search for the user "botfather" in your telegram client
-send him the message "/start"
-send "/newbot" to create a new bot
-follow the instructions in order to create the bot and get the bot token
-add the bot token to BOTtoken in your ino file
+- search for the user "botfather" in your telegram client
+- send him the message "/start"
+- send "/newbot" to create a new bot
+- follow the instructions in order to create the bot and get the bot token
+- add the bot token to BOTtoken in your ino file
 
 ### Telegram user ID
 It may make sense to add your user ID to the ino file. 
-search for the user "IDBot" in ypur telegram client
-send "/getid"
-add your user ID to CHAT_ID in your ino file
+- search for the user "IDBot" in ypur telegram client
+- send "/getid"
+- add your user ID to CHAT_ID in your ino file
 
 
 ## Hardware
 
 ### ESP8266
-You will need something like this 
-https://www.amazon.de/AZDelivery-NodeMCU-ESP8266-ESP-12E-Development/dp/B074Q2WM1Y/ref=sr_1_omk_4?__mk_de_DE=ÅMÅŽÕÑ&crid=2OQQK9E31A4G1&keywords=esp8266&qid=1643144597&sprefix=esp8266%2Caps%2C124&sr=8-4
+You will need something like this [Amazon]
+(https://www.amazon.de/AZDelivery-NodeMCU-ESP8266-ESP-12E-Development/dp/B074Q2WM1Y/ref=sr_1_omk_4?__mk_de_DE=ÅMÅŽÕÑ&crid=2OQQK9E31A4G1&keywords=esp8266&qid=1643144597&sprefix=esp8266%2Caps%2C124&sr=8-4)
 or an ESP32 but in this case the code might need some adaptions
 
 ### Buzzer
-I used this buzzer
-https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1
+I used this [buzzer]
+(https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Breadboard
 Maybe you will need a breadboard and some wires if you do not want to solder.
@@ -63,11 +63,11 @@ In my example the buzzer GND pin is directly connected to the uC ground and the 
 
 ## Compile
 
-open the ino file
-make sure you selected the ESP8266 board in Skech > Tools > Board...
-connect the board to your computer
-select the new port in Sketch > Tools > Port...
-upload the file
+- open the ino file
+- make sure you selected the ESP8266 board in Skech > Tools > Board...
+- connect the board to your computer
+- select the new port in Sketch > Tools > Port...
+- upload the file
 
 ## Sorry...
 for this quick and dirty howto

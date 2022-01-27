@@ -46,8 +46,7 @@ It may make sense to add your user ID to the ino file.
 ## Hardware
 
 ### ESP8266
-You will need something like this [Amazon]
-(https://www.amazon.de/AZDelivery-NodeMCU-ESP8266-ESP-12E-Development/dp/B074Q2WM1Y/ref=sr_1_omk_4?__mk_de_DE=ÅMÅŽÕÑ&crid=2OQQK9E31A4G1&keywords=esp8266&qid=1643144597&sprefix=esp8266%2Caps%2C124&sr=8-4)
+You will need something like this [Amazon](https://www.amazon.de/AZDelivery-NodeMCU-ESP8266-ESP-12E-Development/dp/B06Y1ZPNMS/ref=asc_df_B06Y1ZPNMS/?tag=googshopde-21&linkCode=df0&hvadid=310638483583&hvpos=&hvnetw=g&hvrand=16580639070590533171&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042673&hvtargid=pla-378483937875&psc=1&th=1&psc=1&tag=&ref=&adgrpid=63367893073&hvpone=&hvptwo=&hvadid=310638483583&hvpos=&hvnetw=g&hvrand=16580639070590533171&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042673&hvtargid=pla-378483937875)
 or an ESP32 but in this case the code might need some adaptions
 
 ### Buzzer

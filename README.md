@@ -4,14 +4,14 @@ Checks your vault status and generates an alarm when it falls below a defined th
 ## Prepare Arduino IDE
 
 ### Download and install Arduino IDE
-https://www.arduino.cc/en/software
+[download](https://www.arduino.cc/en/software)
 
 
 ### Install ESP8266 libs
-Follow instructions from here https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
+Follow instructions from [here](https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/)
 
 ### Install Telegram bot lib
-- download https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip
+- download [lib](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip)
 - Go to Sketch > Include Library > Add.ZIP Library...
 - Add the library you’ve just downloaded.
 
@@ -50,8 +50,7 @@ You will need something like this [Amazon](https://www.amazon.de/AZDelivery-Node
 or an ESP32 but in this case the code might need some adaptions
 
 ### Buzzer
-I used this [buzzer]
-(https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
+I used this [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Breadboard
 Maybe you will need a breadboard and some wires if you do not want to solder.

@@ -133,12 +133,18 @@ void loop()
   {
     if ( (millis() > p_LastVaultRefreshRetryRan + p_VaultRefreshRetryDelay) || (p_ShallRefreshRatioNow == true) )
     {
+      p_NextVaultRatio = getVaultStatusGET();
+      
       if((millis() > p_LastVaultRefreshRetryRan + p_VaultRefreshRetryDelay))
       {
         p_bot.sendMessage(CHAT_ID, "Retrying to read vault status...", "");
+        p_bot.sendMessage(CHAT_ID, String(p_NextVaultRatio) + "%", "");
       }
-      p_NextVaultRatio = getVaultStatusGET();
-      p_bot.sendMessage(CHAT_ID, String(p_NextVaultRatio) + "%", "");
+      else
+      {
+        p_bot.sendMessage(CHAT_ID, String(p_NextVaultRatio) + "%", "");
+      }
+      
       testVaultStatus(p_NextVaultRatio);
       p_ShallRefreshRatio = false;
       p_ShallRefreshRatioNow = false;
@@ -339,13 +345,14 @@ void testVaultStatus(int nextVaultRatio)
   else if(nextVaultRatio == -1)
   { 
     //SOFT-ALARM
-    p_bot.sendMessage(CHAT_ID, "WARNING! Ratio not readable. Will try to read it again in 5min.", "");
+    //p_bot.sendMessage(CHAT_ID, "WARNING! Ratio not readable. Will try to read it again in 5min.", "");
     p_ShallRefreshRatio = true;
     p_LastVaultRefreshRetryRan = millis();
 
     if(retryCounter > 6)
     {
       //ALARM
+      p_bot.sendMessage(CHAT_ID, "ALARM! Ratio not readable. Check internet connection.", "");
       pinMode(p_buzzer, OUTPUT);  
       analogWrite(p_buzzer, 10);
     }

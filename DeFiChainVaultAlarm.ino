@@ -272,6 +272,7 @@ void handleNewMessages(int numNewMessages)
         welcome += "/protocol will send you the updated vault status \n";
         welcome += "/readlimit show the current vault alarm limit \n";
         welcome += "/setlimit will allow you to change the vault alarm limit \n";
+        welcome += "/sendkeyboard will send this commands as special keyboard \n";
         p_bot.sendMessage(CHAT_ID, welcome, "");
       }
       else if (text == "/buzzertest")
@@ -320,6 +321,11 @@ void handleNewMessages(int numNewMessages)
       {
         p_bot.sendMessage(CHAT_ID, "Please write new vault alarm limit.", "");
         p_ReadVaultLimit = true;
+      }
+      else if (text == "/sendkeyboard")
+      {
+        String keyboardJson = "[[\"/start\"],[\"/refresh\", \"/vault\"],[\"/buzzertest\", \"/protocol\"],[\"/readlimit\", \"/setlimit\"]]";
+        p_bot.sendMessageWithReplyKeyboard(CHAT_ID, "Choose from one of the following options", "", keyboardJson, true);
       }
     }
 

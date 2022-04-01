@@ -34,7 +34,7 @@ const int p_httpsPort = 443;
 
 const int p_buzzer = 5; //GPIO pin number (remark: GPIO pin number may be different to uc port number)
 
-volatile int p_VaultLimit = 200;
+volatile int p_VaultLimit = 185;
 
 
 /* ****************** public variables ******************** */
@@ -63,7 +63,7 @@ bool p_ReadVaultLimit = false;
 /* **************** function declarations **************** */
 int getVaultStatusGET(void);
 void handleNewMessages(int numNewMessages);
-void testVaultStatus(int nextVaultRatio);
+bool testVaultStatus(int nextVaultRatio);
 
 
 /* ******************************************************* */
@@ -133,16 +133,31 @@ void loop()
   {
     if ( (millis() > p_LastVaultRefreshRetryRan + p_VaultRefreshRetryDelay) || (p_ShallRefreshRatioNow == true) )
     {
-      p_NextVaultRatio = getVaultStatusGET();
+      bool wasHttpRequestOk;
       
-      if((millis() > p_LastVaultRefreshRetryRan + p_VaultRefreshRetryDelay))
+      p_NextVaultRatio = getVaultStatusGET();
+
+      wasHttpRequestOk = testVaultStatus(p_NextVaultRatio);
+      
+      if(p_ShallRefreshRatioNow == true)
       {
-        p_bot.sendMessage(CHAT_ID, "Retrying to read vault status...", "");
-        p_bot.sendMessage(CHAT_ID, String(p_NextVaultRatio) + "%", "");
+        if( wasHttpRequestOk )
+        {
+          p_bot.sendMessage(CHAT_ID, "Next vault status: " + String(p_NextVaultRatio) + "%", "");
+          p_ShallRefreshRatio = false;
+          p_ShallRefreshRatioNow = false;
+        }
+        else
+        {
+          p_ShallRefreshRatio = true;
+          p_ShallRefreshRatioNow = false;
+          p_LastVaultRefreshRetryRan = millis();
+        }
       }
       else
       {
-        p_bot.sendMessage(CHAT_ID, String(p_NextVaultRatio) + "%", "");
+          p_ShallRefreshRatio = false;
+          p_ShallRefreshRatioNow = false; 
       }
       
       testVaultStatus(p_NextVaultRatio);
@@ -178,25 +193,38 @@ int getVaultStatusGET(void)
   }
   else
   {
+    Serial.println("Connected to web");
+
     String getData;
+
+    Serial.print("requesting URL: ");
+    Serial.println(p_host);
+
+    httpsClient.setTimeout(5000);
 
     httpsClient.print(String("GET ") + p_link + " HTTP/1.1\r\n" +
                       "Host: " + p_host + "\r\n" +
                       "Connection: close\r\n\r\n");
 
+    //Serial.println("request sent");
+
     while (httpsClient.connected())
     {
       String line = httpsClient.readStringUntil('\n');
+      //Serial.println(line); //Print response
       if (line == "\r")
       {
+        //Serial.println("headers received");
         break;
       }
     }
 
+    //Serial.println("reply was:");
     String line;
     while (httpsClient.available())
     {
-      line = httpsClient.readStringUntil('<');  //Read Line by Line
+      line = httpsClient.readStringUntil('\n');  //Read Line by Line
+      //Serial.println(line); //Print response
 
       int indexofnextratiostr = line.indexOf("Next ~", 0);
       int indexofnextratio;
@@ -208,12 +236,15 @@ int getVaultStatusGET(void)
         indexofnextratio = indexofnextratiostr + 6;
         indexendofnextratio = line.indexOf("%", indexofnextratio);
         nextRatio = line.substring(indexofnextratio, indexendofnextratio);
+        Serial.print("Your vaults next ratio: ");
+        Serial.println(nextRatio);
         retVal = nextRatio.toInt();
 
         break;
       }
 
     }
+    Serial.println("closing connection");
 
     httpsClient.stop();
   }
@@ -225,6 +256,9 @@ int getVaultStatusGET(void)
 //Handle what happens when you receive new messages
 void handleNewMessages(int numNewMessages)
 {
+  Serial.println("handleNewMessages");
+  Serial.println(String(numNewMessages));
+
   for (int i = 0; i < numNewMessages; i++) {
     // String to search for
     String text_ratio = "Current ratio: ";
@@ -240,6 +274,7 @@ void handleNewMessages(int numNewMessages)
     {
       // Print the received message
       String text = p_bot.messages[i].text;
+      Serial.println(text);
 
       String from_name = p_bot.messages[i].from_name;
 
@@ -298,7 +333,7 @@ void handleNewMessages(int numNewMessages)
         p_ShallRefreshRatio = true;
         p_ShallRefreshRatioNow = true;
 
-        p_bot.sendMessage(CHAT_ID, "Just a second. I will check your vault status.", "");
+        p_bot.sendMessage(CHAT_ID, "Just a second. I will check your vault status. (This may take some while in case site response is invalid)", "");
       }
       else if (text == "/protocol")
       {
@@ -332,12 +367,15 @@ void handleNewMessages(int numNewMessages)
   }
 }
 
-void testVaultStatus(int nextVaultRatio)
+bool testVaultStatus(int nextVaultRatio)
 {
   static int retryCounter = 0;
+  bool retRatioValid = false;
   
   if (nextVaultRatio != -1)
   { 
+    retRatioValid = true;
+    
     if (nextVaultRatio < p_VaultLimit)
     {
       //ALARM
@@ -372,4 +410,6 @@ void testVaultStatus(int nextVaultRatio)
   {
     //its fine
   }
+
+  return retRatioValid;
 }

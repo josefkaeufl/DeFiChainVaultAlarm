@@ -81,7 +81,7 @@ A battery is not mandatory as the hw is powered over USB. But in case you want t
 I bougth this one: [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Connect the Buzzer
-In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D5 (see BUZZERPIN in DefiChainAlarm_cfg.h) of the uC board. Please adapt this for your hardware.
+In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D15 (see BUZZERPIN in DefiChainAlarm_cfg.h) of the uC board. Please adapt this for your hardware.
 
 
 ## Compile

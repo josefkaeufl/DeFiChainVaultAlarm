@@ -14,7 +14,7 @@
 #define DEFAULT_DEFICHAIN_ADDR "0000000000000000000000000000000000000000"
 #define DEFAULT_DEFICHAIN_VAULT "0000000000000000000000000000000000000000000000000000000000000000"
 
-#define BUZZERPIN  5 /*GPIO pin number (remark: GPIO pin number may be different to uc port number)*/
+#define BUZZERPIN  15 /*GPIO pin number (remark: GPIO pin number may be different to uc port number)*/
 
 
 #endif

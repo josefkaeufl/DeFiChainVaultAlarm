@@ -26,33 +26,34 @@ Arduino -> Sketch -> Include Library -> Add .ZIP Library -> select downlod from 
 
 
 ## Configure Code
-Open ino file in Arduino
+Open DefiChainAlarm_cfg.h file in Arduino
 
 ### Wifi connection
-Add your wifi details in p_ssid and p_password
+Add your wifi credentials in DEFAULT_WLAN_SSID and DEFAULT_WLAN_PASSWORD
 
 ### DeFiChain Vault
-Add your vault address in p_link
+Add your defichain address in DEFAULT_DEFICHAIN_ADDR
+and your vault address in DEFAULT_DEFICHAIN_VAULT
 
 ### Telegram bot
 - search for the user "botfather" in your telegram client
 - send him the message "/start"
 - send "/newbot" to create a new bot
 - follow the instructions in order to create the bot and get the bot token
-- add the bot token to BOTtoken in your ino file
+- add the bot token to BOTtoken in your DefiChainAlarm_cfg.h file
 
 ### Telegram user ID
 It may make sense to add your user ID to the ino file. 
-- search for the user "IDBot" in ypur telegram client
+- search for the user "IDBot" in your telegram client
 - send "/getid"
-- add your user ID to CHAT_ID in your ino file
+- add your user ID to CHAT_ID in your DefiChainAlarm_cfg.h file
 
 ## Bugfixes
 
 ### Java2 vs. Java3
-In case you get some compile error like this "exec: "python": executable file not found in $PATH" then follow the instructions from here:
+In case you get a compile error like this "exec: "python": executable file not found in $PATH" then follow the instructions from here:
 https://georgik.rocks/esp32-arduino-macos-exec-python-executable-file-not-found-in-path/
-Note: Your Arduino15 folder can be located somewhere else. Please check the prefrences of your Arduino installation.
+Note: Your Arduino15 folder can be located somewhere else. Please check the preferences of your Arduino installation.
 
 
 ## Hardware
@@ -64,10 +65,10 @@ You will need this hardware:
 [the cable able for buzzer](https://de.aliexpress.com/item/1005003912905288.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu)
 
 ### Buzzer
-I bougth this [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
+I bougth this on[buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Connect the Buzzer
-In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D0 of the uC board.
+In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D5 (see BUZZERPIN in DefiChainAlarm_cfg.h) of the uC board. Please adapt this for your hardware.
 
 
 ## Compile

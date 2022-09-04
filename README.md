@@ -1,6 +1,8 @@
 # DeFiChainVaultAlarm
 Checks your vault status and generates an alarm when it falls below a defined threshold.
 
+![DeFiChainVaultAlarm Hw screenshot](https://github.com/josefkaeufl/DeFiChainVaultAlarm/blob/main/hw_screenshot.jpg?raw=true)
+
 ## Prepare Arduino IDE
 
 ### Download and install Arduino IDE
@@ -60,12 +62,13 @@ Note: Your Arduino15 folder can be located somewhere else. Please check the pref
 
 ### ESP32 Lilygo
 You will need this hardware:
-[The Lilygo ESP32 e-Paper display (PH 2.0 variant)](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu), 
-[a Battery (example)](https://de.aliexpress.com/item/1005002919536938.html?spm=a2g0o.productlist.0.0.74036fa6idQD2W&ad_pvid=202205021227217858146889041840000671022_1&s=p) and 
+[The Lilygo ESP32 e-Paper display (PH 2.0 variant)](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu) and 
 [the cable able for buzzer](https://de.aliexpress.com/item/1005003912905288.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu)
+A battery is not mandatory as the hw is powered over USB. But in case you want to use it (temporary) without a USB connection, you will need something like this:
+[a Battery (example)](https://de.aliexpress.com/item/1005002919536938.html?spm=a2g0o.productlist.0.0.74036fa6idQD2W&ad_pvid=202205021227217858146889041840000671022_1&s=p) 
 
 ### Buzzer
-I bougth this one [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
+I bougth this one: [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Connect the Buzzer
 In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D5 (see BUZZERPIN in DefiChainAlarm_cfg.h) of the uC board. Please adapt this for your hardware.

@@ -7,7 +7,7 @@ Checks your vault status and generates an alarm when it falls below a defined th
 [download](https://www.arduino.cc/en/software)
 
 ### Install ESP32 board
-Arduinon -> Tools -> Board -> Board Manager -> esp32 (v 2.0.2 was used)
+Arduinon -> Tools -> Board -> Board Manager -> esp32 (v 2.0.3 was used)
 
 ### Install UniversalTelegramBot
 Arduino -> Tools -> Manage Libraries -> UniversalTelegramBot (v 1.3.0 was used)
@@ -59,12 +59,12 @@ Note: Your Arduino15 folder can be located somewhere else. Please check the pref
 
 ### ESP32 Lilygo
 You will need this hardware:
-[ESP32 PH 2.0](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu)
-[Battery (example)](https://de.aliexpress.com/item/1005002919536938.html?spm=a2g0o.productlist.0.0.74036fa6idQD2W&ad_pvid=202205021227217858146889041840000671022_1&s=p)
-[Cable for Buzzer](https://de.aliexpress.com/item/1005003912905288.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu)
+[The Lilygo ESP32 e-Paper display (PH 2.0 variant)](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu), 
+[a Battery (example)](https://de.aliexpress.com/item/1005002919536938.html?spm=a2g0o.productlist.0.0.74036fa6idQD2W&ad_pvid=202205021227217858146889041840000671022_1&s=p) and 
+[the cable able for buzzer](https://de.aliexpress.com/item/1005003912905288.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu)
 
 ### Buzzer
-I used this [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
+I bougth this [buzzer](https://www.amazon.de/gp/product/B07DPR4BTN/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 
 ### Connect the Buzzer
 In my example the buzzer GND pin is directly connected to the uC ground and the supply pin (+) is connected to D0 of the uC board.

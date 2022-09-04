@@ -9,8 +9,8 @@ Next vault ratio (top right in block of three numbers)
 Vault limit ratio (bottom right in block of three numbers)
 
 The DeFiChainVaultAlarm is configurable over telegram
-![DeFiChainVaultAlarm Telegram /start](telegram_start.jpg | width=200)
-![DeFiChainVaultAlarm Telegram /setkeyboard](telegram_setkeyboard.jpg | width=200)
+![DeFiChainVaultAlarm Telegram /start](telegram_start.jpg)
+![DeFiChainVaultAlarm Telegram /setkeyboard](telegram_setkeyboard.jpg)
 
 ## Prepare Arduino IDE
 

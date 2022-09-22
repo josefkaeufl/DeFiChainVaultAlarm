@@ -39,6 +39,7 @@ Arduino -> Sketch -> Include Library -> Add .ZIP Library -> select downlod from 
 
 ## Configure Code
 Open DefiChainAlarm_cfg.h file in Arduino
+
 Note: the following information is also summarized in "HowTo" [PDF file](DeFiChainVaulAlarm_how_to_configure.pdf)
 
 ### Wifi connection

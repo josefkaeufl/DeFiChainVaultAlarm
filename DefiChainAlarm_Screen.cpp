@@ -74,7 +74,7 @@ void DefiChainAlarm_Screen::UpdateScreen(int VaultRatio, int nextVaultRatio, int
   
   
   //system monitor
-  int cursor_system_text_x = 10;
+  int cursor_system_text_x = 20;
   int cursor_system_text_y = 300;
   
   int cursor_system_message_x_init = 40;
@@ -147,7 +147,8 @@ void DefiChainAlarm_Screen::UpdateScreen(int VaultRatio, int nextVaultRatio, int
   epd_poweron();
   epd_clear();
   epd_draw_grayscale_image(epd_full_screen(), _framebuffer);
-  epd_poweroff();
+  //epd_poweroff();
+  epd_poweroff_all();
 
 }
 

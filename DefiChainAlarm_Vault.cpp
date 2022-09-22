@@ -5,8 +5,10 @@
 
 DefiChainAlarm_Vault::DefiChainAlarm_Vault()
 {
+  DefiChainAlarm_Eeprom Eeprom;
+  
   _TestRetryCounter = 0;
-  _VaultLimit = 200;
+  _VaultLimit = Eeprom.GetAlarmLimit();
 }
 
 void DefiChainAlarm_Vault::SetLimit(int Limit)
@@ -43,6 +45,10 @@ char* DefiChainAlarm_Vault::TestVaultStatus(int nextVaultRatio)
       //ALARM
       pinMode(BUZZERPIN, OUTPUT);  
       analogWrite(BUZZERPIN, 10);
+      Serial.print("Next Ratio: ");
+      Serial.println(nextVaultRatio);
+      Serial.print("Vault Limit: ");
+      Serial.println(_VaultLimit);
       strcpy(returnMessage, ("ALARM! Your vault is at " + String(nextVaultRatio) + "%").c_str());
     }
 
@@ -69,6 +75,8 @@ char* DefiChainAlarm_Vault::TestVaultStatus(int nextVaultRatio)
   else
   {
     //its fine
+    Serial.print("Vault Limit: ");
+    Serial.println(_VaultLimit);
   }
 
   return returnMessage; 

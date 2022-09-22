@@ -110,7 +110,7 @@ char* DefiChainAlarm_Eeprom::GetDefichainVault(void)
   strcpy(retval, _preferences.getString(LOCATION_DFIVAULT, "").c_str());
   if( retval[0] == '\0' )
   {
-    Serial.println("Defichain Vault ID was empty. Using default password instead!");
+    Serial.println("Defichain Vault ID was empty. Using default ID instead!");
     strcpy(retval, DEFAULT_DEFICHAIN_VAULT);
   }
   _preferences.end();
@@ -137,7 +137,7 @@ char* DefiChainAlarm_Eeprom::GetDefichainAddr(void)
   strcpy(retval, _preferences.getString(LOCATION_DFIADDR, "").c_str());
   if( retval[0] == '\0' )
   {
-    Serial.println("Defichain address was empty. Using default password instead!");
+    Serial.println("Defichain address was empty. Using default address instead!");
     strcpy(retval, DEFAULT_DEFICHAIN_ADDR);
   }
   _preferences.end();

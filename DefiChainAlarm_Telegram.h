@@ -17,6 +17,7 @@ class DefiChainAlarm_Telegram
     void Cyclic(DefiChainAlarm_Screen& Screen, DefiChainAlarm_Vault& Vault);
     void SendMsg(const char* text);
     void SendMsgWithReplyKeyboard(const char* text);
+    bool GetProtocolStatus();
     bool _ShallRefreshRatio;
     bool _ShallRefreshRatioNow;
     

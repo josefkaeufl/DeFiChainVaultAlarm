@@ -134,6 +134,8 @@ void DefiChainAlarm_Telegram::_handleNewMessages(int numNewMessages, DefiChainAl
           //set new limit
           DefiChainAlarm_Eeprom Eeprom;
           Eeprom.SetAlarmLimit(newVaultLimit);
+          Serial.print("New Limit received: ");
+          Serial.println(newVaultLimit);
           Vault.SetLimit(newVaultLimit);
           
           _ReadVaultLimit = false;
@@ -307,4 +309,9 @@ void DefiChainAlarm_Telegram::_handleNewMessages(int numNewMessages, DefiChainAl
     }
 
   }
+}
+
+bool DefiChainAlarm_Telegram::GetProtocolStatus()
+{
+  return _SendRefreshedRatio;
 }

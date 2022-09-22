@@ -14,7 +14,6 @@
 
 bool p_ShallRefreshRatio = false;
 bool p_ShallRefreshRatioNow = false;
-bool p_SendRefreshedRatio = false;
 
 int p_VaultRefreshDelay = 1000 * 60 * 30;
 unsigned long p_LastVaultRefreshRan = 0;
@@ -95,7 +94,7 @@ void loop()
   
       Screen.UpdateScreen(p_CurrentVaultRatio, p_NextVaultRatio, Eeprom.GetAlarmLimit(), p_DusdFee, p_DfiPrice); 
   
-      if (p_SendRefreshedRatio == true)
+      if (Telegram.GetProtocolStatus() == true)
       {
         Telegram.SendMsg((String(p_NextVaultRatio) + "%").c_str());
       }

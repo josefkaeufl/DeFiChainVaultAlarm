@@ -57,12 +57,12 @@ char* DefiChainAlarm_Vault::TestVaultStatus(int nextVaultRatio)
   else if(nextVaultRatio == -1)
   { 
     //SOFT-ALARM
-    strcpy(returnMessage, "WARNING! Ratio not readable. Will try to read it again in 5min.");
+    strcpy(returnMessage, "WARNING! Vault read error. Will retry in 5min.");
 
     if(_TestRetryCounter > 6)
     {
       //ALARM
-      strcpy(returnMessage, "ALARM! Ratio not readable. Check internet connection.");
+      strcpy(returnMessage, "ALARM! Vault read error. Check internet connection.");
       pinMode(BUZZERPIN, OUTPUT);  
       analogWrite(BUZZERPIN, 10);
     }

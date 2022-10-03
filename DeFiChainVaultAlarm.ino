@@ -18,7 +18,7 @@ bool p_ShallRefreshRatioNow = false;
 int p_VaultRefreshDelay = 1000 * 60 * 30;
 unsigned long p_LastVaultRefreshRan = 0;
 
-int p_VaultRefreshRetryDelay = 1000 * 60 * 2;
+int p_VaultRefreshRetryDelay = 1000 * 60 * 5;
 unsigned long p_LastVaultRefreshRetryRan;
 
 int p_NextVaultRatio = 0;

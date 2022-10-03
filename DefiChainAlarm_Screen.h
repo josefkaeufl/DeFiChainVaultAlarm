@@ -6,7 +6,7 @@
 #include <WiFiUdp.h>
 
 #define NUMOF_SYSTEM_MSG  4
-#define NUMOF_SYSTEM_MSG_CHARS 50
+#define NUMOF_SYSTEM_MSG_CHARS 59
 
 
 class DefiChainAlarm_Screen

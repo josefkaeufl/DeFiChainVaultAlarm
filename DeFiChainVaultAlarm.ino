@@ -59,6 +59,7 @@ void loop()
   Serial.println("Update display");
   DefiChainAlarm_Screen Screen;
   Screen.AddSystemMessage("initialization done"); 
+  Screen.AddSystemMessage("fetching vault data..."); 
   Screen.UpdateScreen(0,0,0,0,0);
 
   while(1)

@@ -12,9 +12,6 @@
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>   // Universal Telegram Bot Library written by Brian Lough: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 
-WiFiClientSecure p_WifiClient;
-UniversalTelegramBot p_TelegramBot(BOTtoken, p_WifiClient);
-
 DefiChainAlarm_Telegram::DefiChainAlarm_Telegram()
   : _TelegramBot(BOTtoken, _WifiClient)
 {
@@ -33,16 +30,42 @@ DefiChainAlarm_Telegram::DefiChainAlarm_Telegram()
 }
 
 void DefiChainAlarm_Telegram::Init()
+{ 
+  WiFi.mode(WIFI_STA);
+  
+  _WifiClient.setCACert(TELEGRAM_CERTIFICATE_ROOT); // Add root certificate for api.telegram.org
+
+  (void)_connectWifi();
+  
+  Serial.print("Local IP address: ");
+  Serial.println(WiFi.localIP());
+
+}
+
+bool DefiChainAlarm_Telegram::_connectWifi()
 {
   int WifiConnectStartTime;
+  bool areDefaultCredentialsUsed = false;
+  bool retValue = true;
+
+  char* WlanSsid;
+  char* WlanPswd;
   
   // load values from eeprom
   DefiChainAlarm_Eeprom Eeprom;
+  WlanSsid = Eeprom.GetWlanSsid();
+  WlanPswd = Eeprom.GetWlanPswd();
 
   WifiConnectStartTime = millis();
-  
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(Eeprom.GetWlanSsid(), Eeprom.GetWlanPswd());
+
+  if( strcmp(WlanPswd, "NULL") == 0 )
+  {
+    WiFi.begin(WlanSsid);
+  }
+  else
+  {
+    WiFi.begin(WlanSsid, WlanPswd);
+  }
   
   _WifiClient.setCACert(TELEGRAM_CERTIFICATE_ROOT); // Add root certificate for api.telegram.org
 
@@ -54,25 +77,42 @@ void DefiChainAlarm_Telegram::Init()
 
     if( millis() - WifiConnectStartTime > 10000 )
     {
-      // abort time 10sec
-      Serial.println("Timeout. Use default values instead.");
-      Serial.print("Connecting to WiFi");
-      
-      WiFi.begin(DEFAULT_WLAN_SSID, DEFAULT_WLAN_PASSWORD);
-      
-      WifiConnectStartTime = millis();
+      if( areDefaultCredentialsUsed == false )
+      {
+        // abort time 10sec
+        Serial.println("Timeout. Use default values instead.");
+        Serial.print("Connecting to WiFi");
+        
+        WiFi.begin(DEFAULT_WLAN_SSID, DEFAULT_WLAN_PASSWORD);
+        
+        WifiConnectStartTime = millis();
+        areDefaultCredentialsUsed = true;
+      }
+      else
+      {
+        retValue = false;
+      }
     }
   }
-  //WiFi.setSleep(true); //power saving WIFI_PS_MIN_MODEM
-  
-  Serial.println(".ok");
-  Serial.print("Local IP address: ");
-  Serial.println(WiFi.localIP());
 
+  Serial.println(" done");
+  return retValue;
 }
 
 void DefiChainAlarm_Telegram::Cyclic(DefiChainAlarm_Screen& Screen, DefiChainAlarm_Vault& Vault)
 {
+  // maybe reconnect wifi
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    if( _connectWifi() == false )
+    {
+      Screen.AddSystemMessage("ALARM: No Wifi connection possible"); 
+      Screen.UpdateScreenMessages();
+      pinMode(BUZZERPIN, OUTPUT);  
+      analogWrite(BUZZERPIN, 10);
+    }
+  }
+  
   // Telegram
   if (millis() - _lastTimeBotRan > _botRequestDelay)
   {
@@ -95,7 +135,7 @@ void DefiChainAlarm_Telegram::SendMsg(const char* text)
 
 void DefiChainAlarm_Telegram::SendMsgWithReplyKeyboard(const char* text)
 {
-  String keyboardJson = "[[\"/start\"],[\"/refresh\", \"/vault\"],[\"/buzzertest\", \"/protocol\"],[\"/readlimit\", \"/setlimit\"],[\"/setwlanssid\", \"/setwlanpswd\"]]";
+  String keyboardJson = "[[\"/start\"],[\"/refresh\", \"/vault\"],[\"/buzzertest\", \"/protocol\"],[\"/readlimit\", \"/setlimit\"],[\"/setwlanssid\", \"/setwlanpswd\"],[\"/setdefichainvaultid\", \"/setdefichainaddr\"]]";
   _TelegramBot.sendMessageWithReplyKeyboard(CHAT_ID, text, "", keyboardJson, true);
 }
 
@@ -284,12 +324,14 @@ void DefiChainAlarm_Telegram::_handleNewMessages(int numNewMessages, DefiChainAl
       }
       else if (text == "/setwlanssid")
       {
-        SendMsg("Please write new vault WLAN SSID. (will be used after next reset)");
+        SendMsg("Please write new vault WLAN SSID. Please set the password to 'NULL' in case this is a guest network which needs no password. (please power-off and power-on device to take over new values)");
+        SendMsg("WARNING: In case WLAN credentials are wrong, the device will fall back to the hardcoded ones.");
         _ReadWlanSsid = true;
       }
       else if (text == "/setwlanpswd")
       {
-        SendMsg("Please write new vault WLAN password. (will be used after next reset)");
+        SendMsg("Please write new vault WLAN password. Please set the password to 'NULL' in case this is a guest network which needs no password. (please power-off and power-on device to take over new values)");
+        SendMsg("WARNING: In case WLAN credentials are wrong, the device will fall back to the hardcoded ones.");
         _ReadWlanPswd = true;
       }
       else if (text == "/setdefichainvaultid")

@@ -23,6 +23,7 @@ class DefiChainAlarm_Telegram
     
   private:
     void _handleNewMessages(int numNewMessages, DefiChainAlarm_Screen& Screen, DefiChainAlarm_Vault& Vault);
+    bool _connectWifi();
     int _botRequestDelay;
     unsigned long _lastTimeBotRan;
     bool _ReadVaultLimit;

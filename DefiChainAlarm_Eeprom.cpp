@@ -30,7 +30,6 @@ int DefiChainAlarm_Eeprom::GetAlarmLimit(void)
     retval = 200;
     _preferences.putInt(LOCATION_ALARMLIMIT, retval);
   }
-  Serial.println(retval);
   _preferences.end();
   
   return retval;

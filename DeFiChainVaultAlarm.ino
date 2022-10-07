@@ -48,7 +48,6 @@ void loop()
    */
   DefiChainAlarm_Vault Vault;
   DefiChainAlarm_Telegram Telegram;
-
   DefiChainAlarm_Eeprom Eeprom;
   DefiChainAlarm_Http Http;
 
@@ -84,7 +83,7 @@ void loop()
   
       if( VaultTestErrorMsg[0] == '\0' )
       {
-        Screen.AddSystemMessage("vault status update ok"); 
+        Screen.AddSystemMessage((String("next vault col. ratio ")+String(p_NextVaultRatio)+String("%")).c_str()); 
         p_LastVaultRefreshRan = millis();
       }
       else

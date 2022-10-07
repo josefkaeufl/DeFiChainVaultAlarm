@@ -11,11 +11,16 @@
 #include "font_TitilliumWeb_SemiBold_52.h"
 #include "DefichainLogo.h"
 #include <WiFi.h>
+#include <time.h>
 
 
 DefiChainAlarm_Screen::DefiChainAlarm_Screen()
-  : _timeClient(_ntpUDP, "europe.pool.ntp.org", 3600, 60000)
 {
+  time_t now;
+  tm tm;
+  int cursor_loading_x = 10;
+  int cursor_loading_y = 45;
+  
   _framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
   if (!_framebuffer) {
       Serial.println("alloc memory failed !!!");
@@ -24,10 +29,25 @@ DefiChainAlarm_Screen::DefiChainAlarm_Screen()
 
   epd_init();
 
+  memset(_framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
+  writeln((GFXfont *)&TitilliumWeb_18, "loading...", &cursor_loading_x, &cursor_loading_y, _framebuffer); 
+  epd_poweron();
+  epd_clear();
+  epd_draw_grayscale_image(epd_full_screen(), _framebuffer);
+  epd_poweroff_all();
+
   memset(_SystemMessages, 0x00, NUMOF_SYSTEM_MSG * NUMOF_SYSTEM_MSG_CHARS);
 
   //init and get the time
-  _timeClient.begin();
+  Serial.print("Initializing time from compiler tools ");
+  configTime(1*3600, 0, "europe.pool.ntp.org");
+  do{
+    Serial.print(".");
+    time(&now);
+    localtime_r(&now, &tm);
+    delay(500);
+  }while(tm.tm_year < 122);
+  Serial.println("ok");
 }
 
 void DefiChainAlarm_Screen::UpdateScreen(int VaultRatio, int nextVaultRatio, int VaultLimit, float DusdFee, float DfiPrice)
@@ -164,6 +184,9 @@ void DefiChainAlarm_Screen::AddSystemMessage(const char* Message)
   char localSystemMessage[NUMOF_SYSTEM_MSG_CHARS];
   static int localIndex = 0;
 
+  time_t now;                         // this is the epoch
+  tm tm;                              // the structure tm holds time information in a more convient way
+
   sMessage = String(Message);
   
   if ( sMessage.length() > (NUMOF_SYSTEM_MSG_CHARS - 12) )
@@ -175,28 +198,24 @@ void DefiChainAlarm_Screen::AddSystemMessage(const char* Message)
     localMessage = sMessage;
   }
 
-  /* variant 1 : last message first */
-//
-//  for(int i=(NUMOF_SYSTEM_MSG-2); i>=1; i--)
-//  {
-//    memcpy(p_SystemMessages[i], p_SystemMessages[i-1], NUMOF_SYSTEM_MSG_CHARS);
-//  }
-//  
-//  p_timeClient.update();
-//  strcpy(p_SystemMessages[0] ,"[");
-//  strcat(p_SystemMessages[0], p_timeClient.getFormattedTime().c_str());
-//  strcat(p_SystemMessages[0], "] ");
-//  strcat(p_SystemMessages[0], localMessage.c_str());
+  // get timestamp
+  time(&now);                       // read the current time
+  localtime_r(&now, &tm);           // update the structure tm with the current time
 
+  // prepare system message string
+  if(tm.tm_isdst == 1)
+  {
+    sprintf(localSystemMessage, "[%02d:%02d:%02d] ", (tm.tm_hour+0), tm.tm_min, tm.tm_sec);
+  }
+  else
+  {
+    sprintf(localSystemMessage, "[%02d:%02d:%02d] ", (tm.tm_hour+1), tm.tm_min, tm.tm_sec);
+  }
+  strcat(localSystemMessage, localMessage.c_str()); 
 
   /* variant 2 : last message last */
   if( localIndex < NUMOF_SYSTEM_MSG )
   {
-    _timeClient.update();
-    strcpy(localSystemMessage ,"[");
-    strcat(localSystemMessage, _timeClient.getFormattedTime().c_str());
-    strcat(localSystemMessage, "] ");
-    strcat(localSystemMessage, localMessage.c_str());
     memcpy(_SystemMessages[localIndex], localSystemMessage, NUMOF_SYSTEM_MSG_CHARS);
     localIndex++;
   }
@@ -205,12 +224,7 @@ void DefiChainAlarm_Screen::AddSystemMessage(const char* Message)
     for(int i=1; i<NUMOF_SYSTEM_MSG; i++)
     {
       memcpy(_SystemMessages[i-1], _SystemMessages[i], NUMOF_SYSTEM_MSG_CHARS);
-    }
-    _timeClient.update();
-    strcpy(localSystemMessage ,"[");
-    strcat(localSystemMessage, _timeClient.getFormattedTime().c_str());
-    strcat(localSystemMessage, "] ");
-    strcat(localSystemMessage, localMessage.c_str());
+    } 
     memcpy(_SystemMessages[NUMOF_SYSTEM_MSG-1], localSystemMessage, NUMOF_SYSTEM_MSG_CHARS);
   }
 

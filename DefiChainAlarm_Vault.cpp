@@ -43,8 +43,7 @@ char* DefiChainAlarm_Vault::TestVaultStatus(int nextVaultRatio)
     if (nextVaultRatio < _VaultLimit)
     {
       //ALARM
-      pinMode(BUZZERPIN, OUTPUT);  
-      analogWrite(BUZZERPIN, 10);
+      analogWrite(BUZZERPIN, 20);
       Serial.print("Next Ratio: ");
       Serial.println(nextVaultRatio);
       Serial.print("Vault Limit: ");
@@ -63,8 +62,7 @@ char* DefiChainAlarm_Vault::TestVaultStatus(int nextVaultRatio)
     {
       //ALARM
       strcpy(returnMessage, "ALARM! Vault read error. Check internet connection.");
-      pinMode(BUZZERPIN, OUTPUT);  
-      analogWrite(BUZZERPIN, 10);
+      analogWrite(BUZZERPIN, 20);
     }
     else
     {

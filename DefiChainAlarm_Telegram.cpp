@@ -108,8 +108,7 @@ void DefiChainAlarm_Telegram::Cyclic(DefiChainAlarm_Screen& Screen, DefiChainAla
     {
       Screen.AddSystemMessage("ALARM: No Wifi connection possible"); 
       Screen.UpdateScreenMessages();
-      pinMode(BUZZERPIN, OUTPUT);  
-      analogWrite(BUZZERPIN, 10);
+      analogWrite(BUZZERPIN, 20);
     }
   }
   
@@ -271,11 +270,9 @@ void DefiChainAlarm_Telegram::_handleNewMessages(int numNewMessages, DefiChainAl
       else if (text == "/buzzertest")
       {
         SendMsg("Buzzer activated...");
-        pinMode(BUZZERPIN, OUTPUT);  
-        analogWrite(BUZZERPIN, 10);
+        analogWrite(BUZZERPIN, 20);
         delay(1000);
-        analogWrite(BUZZERPIN, 0);
-        pinMode(BUZZERPIN, INPUT);  
+        analogWrite(BUZZERPIN, 0); 
         SendMsg("Buzzer deactivated...");
         Screen.AddSystemMessage("buzzer tested"); 
         Screen.UpdateScreenMessages(); 

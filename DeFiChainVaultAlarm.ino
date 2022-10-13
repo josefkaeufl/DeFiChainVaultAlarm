@@ -12,9 +12,6 @@
 
 /* ****************** public variables ******************** */
 
-bool p_ShallRefreshRatio = false;
-bool p_ShallRefreshRatioNow = false;
-
 int p_VaultRefreshDelay = 1000 * 60 * 30;
 unsigned long p_LastVaultRefreshRan = 0;
 

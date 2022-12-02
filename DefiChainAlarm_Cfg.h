@@ -17,7 +17,7 @@
 #define BUZZERPIN  15 /*GPIO pin number (remark: GPIO pin number may be different to uc port number)*/
 
 #define DEVICEID "0"
-#define SWVERSION "1.2.2"
+#define SWVERSION "1.2.3"
 
 
 #endif

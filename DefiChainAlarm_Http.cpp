@@ -70,28 +70,41 @@ void DefiChainAlarm_Http::GetVaultStatus(int* VaultRatio, int* nextVaultRatio)
     //Serial.println("reply was:");
     String line;
     int indexofvaultstr;
+    int indexofvaultsearch = 0;
     while (httpsClient.available())
     {
       line = httpsClient.readStringUntil('\n');  //Read Line by Line
-      //Serial.println(line); //Print response
+      Serial.println(line); //Print response
 
       if( isVaultFound == false )
       {
-            indexofvaultstr = line.indexOf("vaultId", 0);
+            indexofvaultstr = line.indexOf("vaultId", indexofvaultsearch);
         int indexofvault;
         int indexendofvault;
-        if (indexofvaultstr != -1)
+        do
         {
-          String vaultId;
-          
-          indexofvault = indexofvaultstr + 10;
-          indexendofvault = line.indexOf("\"", indexofvault);
-          vaultId = line.substring(indexofvault, indexendofvault);
-          if( vaultId == Eeprom.GetDefichainVault() )
+          if (indexofvaultstr != -1)
           {
-            isVaultFound = true;
+            String vaultId;
+          
+            indexofvault = indexofvaultstr + 10;
+            indexendofvault = line.indexOf("\"", indexofvault);
+            vaultId = line.substring(indexofvault, indexendofvault);
+            if( vaultId == Eeprom.GetDefichainVault() )
+            {
+              isVaultFound = true;
+              Serial.print("Vault found! Index: ");
+              Serial.println(indexendofvault);
+            }
+            else
+            {
+              indexofvaultsearch = indexendofvault;
+              Serial.println("Wrong Vault! Index: ");
+              Serial.println(indexendofvault);
+              indexofvaultstr = line.indexOf("vaultId", indexofvaultsearch);
+            }
           }
-        }
+        }while( ( indexofvaultstr != -1 ) && ( isVaultFound == false ) );
       }
 
       if( isVaultFound == true )

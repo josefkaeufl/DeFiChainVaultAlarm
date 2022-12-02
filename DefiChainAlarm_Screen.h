@@ -18,6 +18,7 @@ class DefiChainAlarm_Screen
 {
   public:
     DefiChainAlarm_Screen();
+    void InitTime(void);
     void UpdateScreen(int VaultRatio, int nextVaultRatio, int VaultLimit, float DusdFee, float DfiPrice);
     void UpdateScreenMessages(void);
     void AddSystemMessage(const char* Message);

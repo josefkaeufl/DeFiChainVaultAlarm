@@ -26,8 +26,8 @@ int DefiChainAlarm_Eeprom::GetAlarmLimit(void)
   retval = _preferences.getInt(LOCATION_ALARMLIMIT, 0);
   if( retval == 0 )
   {
-    Serial.println("EEPROM was empty. Using default limit of 200%.");
-    retval = 200;
+    Serial.println("EEPROM was empty. Using default limit of 151%.");
+    retval = 151;
     _preferences.putInt(LOCATION_ALARMLIMIT, retval);
   }
   _preferences.end();

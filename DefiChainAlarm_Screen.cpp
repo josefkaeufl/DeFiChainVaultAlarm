@@ -10,16 +10,21 @@
 #include "font_TitilliumWeb_SemiBold_50.h"
 #include "font_TitilliumWeb_SemiBold_52.h"
 #include "DefichainLogo.h"
+#include "DefiChainAlarm_Cfg.h"
 #include <WiFi.h>
 #include <time.h>
 
 
 DefiChainAlarm_Screen::DefiChainAlarm_Screen()
 {
-  time_t now;
-  tm tm;
+  int cursor_deviceid_x = 10;
+  int cursor_deviceid_y = 45;
+  int cursor_swversion_x = 10;
+  int cursor_swversion_y = 95;
   int cursor_loading_x = 10;
-  int cursor_loading_y = 45;
+  int cursor_loading_y = 175;
+
+
   
   _framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
   if (!_framebuffer) {
@@ -30,6 +35,10 @@ DefiChainAlarm_Screen::DefiChainAlarm_Screen()
   epd_init();
 
   memset(_framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
+  writeln((GFXfont *)&TitilliumWeb_18, "device ID  #", &cursor_deviceid_x, &cursor_deviceid_y, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_18, DEVICEID, &cursor_deviceid_x, &cursor_deviceid_y, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_18, "v", &cursor_swversion_x, &cursor_swversion_y, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_18, SWVERSION, &cursor_swversion_x, &cursor_swversion_y, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_18, "loading...", &cursor_loading_x, &cursor_loading_y, _framebuffer); 
   epd_poweron();
   epd_clear();
@@ -37,8 +46,14 @@ DefiChainAlarm_Screen::DefiChainAlarm_Screen()
   epd_poweroff_all();
 
   memset(_SystemMessages, 0x00, NUMOF_SYSTEM_MSG * NUMOF_SYSTEM_MSG_CHARS);
+}
 
-  //init and get the time
+void DefiChainAlarm_Screen::InitTime(void)
+{
+  time_t now;
+  tm tm;
+  
+   //init and get the time
   Serial.print("Initializing time from compiler tools ");
   configTime(1*3600, 0, "europe.pool.ntp.org");
   do{
@@ -203,14 +218,14 @@ void DefiChainAlarm_Screen::AddSystemMessage(const char* Message)
   localtime_r(&now, &tm);           // update the structure tm with the current time
 
   // prepare system message string
-  if(tm.tm_isdst == 1)
-  {
+//  if(tm.tm_isdst == 1)
+//  {
     sprintf(localSystemMessage, "[%02d:%02d:%02d] ", (tm.tm_hour+0), tm.tm_min, tm.tm_sec);
-  }
-  else
-  {
-    sprintf(localSystemMessage, "[%02d:%02d:%02d] ", (tm.tm_hour+1), tm.tm_min, tm.tm_sec);
-  }
+//  }
+//  else
+//  {
+//    sprintf(localSystemMessage, "[%02d:%02d:%02d] ", (tm.tm_hour+1), tm.tm_min, tm.tm_sec);
+//  }
   strcat(localSystemMessage, localMessage.c_str()); 
 
   /* variant 2 : last message last */

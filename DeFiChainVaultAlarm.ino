@@ -48,12 +48,16 @@ void loop()
   DefiChainAlarm_Eeprom Eeprom;
   DefiChainAlarm_Http Http;
 
+  Serial.println("Update display");
+  DefiChainAlarm_Screen Screen;
+
   Serial.println("Initialize Telegram bot");
   Telegram.Init();
   
+  Serial.println("init display timw");
+  Screen.InitTime();
+  
   Serial.println("");
-  Serial.println("Update display");
-  DefiChainAlarm_Screen Screen;
   Screen.AddSystemMessage("initialization done"); 
   Screen.AddSystemMessage("fetching vault data..."); 
   Screen.UpdateScreen(0,0,0,0,0);

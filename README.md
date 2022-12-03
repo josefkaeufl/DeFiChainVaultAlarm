@@ -36,6 +36,11 @@ Download zip from https://github.com/Xinyuan-LilyGO/LilyGo-EPD47
 Install it:
 Arduino -> Sketch -> Include Library -> Add .ZIP Library -> select downlod from LiliGo library
 
+### Install drivers for CH9102 USB to Serial chip
+The ESP32 Lilygo uses a quite unknown USB to Serial chip, which may need drivers your OS does not have native. So if you have problems during the upload, this my be the solution.
+This is documented [here](https://arduino.stackexchange.com/questions/88522/drivers-for-ch9102x-serial-port-chip)
+e.g. MAC drivers can be downloaded [here](https://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html)
+
 
 ## Configure Code
 Open DefiChainAlarm_cfg.h file in Arduino
